@@ -1,1 +1,3 @@
-# CPU-Schedular-Simulator
+# CPU Schedular Simulator
+
+# Project is under development

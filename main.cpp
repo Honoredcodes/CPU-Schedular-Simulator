@@ -4,7 +4,19 @@
 #include <ctime>
 #include <cstdlib>
 
-class DataStructures {
+// class DataStructures {Temp};
+
+class schedular {
+protected:
+    struct Process {
+        int process_id, arrival_time, burst_time, priority;
+        Process* next = nullptr;
+    };
+
+    struct Results {
+        int waiting, turnaround, completion;
+    };
+
 public:
     struct Queue {
         int dequeue() {}
@@ -25,9 +37,10 @@ public:
     struct LinkedList {};
 };
 
-class algorithms {
+
+class algorithms : public schedular {
 public:
-    void FCFS() {
+    void FCFS(Process* processObj, Results* resultObj) {
         std::cout << "This is fcfs\n";
     }
     void RoundRobin() {
@@ -45,17 +58,6 @@ public:
     void PriorityNonPreemptive() {
         std::cout << "This is priority non\n";
     }
-};
-
-class schedular {
-    struct Process {
-        int process_id, arrival_time, burst_time, priority;
-        Process* next = nullptr;
-    };
-
-    struct SimulationResult {
-        int waiting, turnaround, completion;
-    };
 };
 
 int main() {

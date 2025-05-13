@@ -1,16 +1,28 @@
 #include <iostream>
+#include <algorithm>
+#include <string>
+#include <ctime>
+#include <cstdlib>
 
 class DataStructures {
 public:
-    void Queue() {
-        std::cout << "This is queue\n";
-    }
-    void Stack() {
-        std::cout << "This is stac;\n";
-    }
-    void LinkedList() {
-        std::cout << "This is LL\n";
-    }
+    struct Queue {
+        int dequeue() {}
+        void enqueue() {}
+        void initQueue() {}
+        bool queueIsEmpty() {}
+        bool queueIsFull() {}
+    };
+
+    struct Stack {
+        int pop() {}
+        void push() {}
+        void initStack() {}
+        bool stackIsEmpty() {}
+        bool stackIsFull() {}
+    };
+
+    struct LinkedList {};
 };
 
 class algorithms {

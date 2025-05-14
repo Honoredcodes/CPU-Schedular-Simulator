@@ -70,7 +70,8 @@ public:
                 if (!head) {
                     head = newProcess;
                     tail = newProcess;
-                } else {
+                }
+                else {
                     tail->next = newProcess;
                     tail = newProcess;
                 }
@@ -79,7 +80,20 @@ public:
             processObj = head;
             return true;
         }
-        void write() {}
+        bool write(const std::string algorithm, const std::string filename, Results& resultObj) {
+            const std::string filepath = fs::path("logs") / filename;
+            std::ofstream file(filepath, std::ios::app);
+            if (!file) return false;
+            file << "Algorithm: " << algorithm << "\n";
+            file << "Total Waiting Time: " << resultObj.totalwaiting << "\n";
+            file << "Total Turnaround Time: " << resultObj.totalturnaround << "\n";
+            file << "Total Completion Time: " << resultObj.totalcompletion << "\n";
+            file << "Average Waiting Time: " << resultObj.averagewaiting << "\n";
+            file << "Average Turnaround Time: " << resultObj.averageturnaround << "\n";
+            file << "Average Completion Time: " << resultObj.averagecompletion << "\n\n";
+            file.close();
+            return true;
+        }
     };
 };
 

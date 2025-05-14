@@ -26,6 +26,8 @@ protected:
 
 public:
     struct Queue {
+        int front, rear;
+        int size;
         int dequeue() {}
         void enqueue() {}
         void initQueue() {}
@@ -36,6 +38,7 @@ public:
     };
 
     struct Stack {
+        int top;
         int pop() {}
         void push() {}
         void initStack() {}
@@ -100,11 +103,55 @@ public:
 
 class algorithms : public schedular {
 public:
-    void FCFS(Process* processObj, Results* resultObj) {
-        std::cout << "This is fcfs\n";
+    void FCFS(const std::string input, const std::string output, Process* processObj, Results* resultObj) {
+        std::cout << "First Come, First Serve in progress.\n";
+        filereaders fileReader;
+        fileReader.read(input, processObj);
+        Process* current = processObj;
+        int time = 0, count = 0;
+        while (current) {
+            if (time < current->arrival_time) time = current->arrival_time;
+            time += current->burst_time;
+            resultObj->totalwaiting += time - current->arrival_time - current->burst_time;
+            resultObj->totalturnaround += time - current->arrival_time;
+            resultObj->totalcompletion += time;
+            current = current->next;
+            count++;
+        }
+        resultObj->averagewaiting = resultObj->totalwaiting / count;
+        resultObj->averageturnaround = resultObj->totalturnaround / count;
+        resultObj->averagecompletion = resultObj->totalcompletion / count;
+        fileReader.write("FCFS", output, *resultObj);
+        std::cout << "First Come, First Serve completed.\n";
     }
-    void RoundRobin() {
-        std::cout << "This is RR\n";
+
+    void RoundRobin(const std::string input, const std::string output, int quantum, Process* processObj, Results* resultObj) {
+        std::cout << "Round Robin in progress.\n";
+        filereaders fileReader;
+        fileReader.read(input, processObj);
+        Process* current = processObj;
+        int time = 0;
+        while (current) {
+            if (current->arrival_time <= time) {
+                if (current->burst_time > quantum) {
+                    time += quantum;
+                    current->burst_time -= quantum;
+                }
+                else {
+                    time += current->burst_time;
+                    resultObj->totalwaiting += time - current->arrival_time - current->burst_time;
+                    resultObj->totalturnaround += time - current->arrival_time;
+                    resultObj->totalcompletion += time;
+                    current->burst_time = 0;
+                }
+            }
+            current = current->next;
+        }
+        resultObj->averagewaiting = resultObj->totalwaiting / 5;
+        resultObj->averageturnaround = resultObj->totalturnaround / 5;
+        resultObj->averagecompletion = resultObj->totalcompletion / 5;
+        fileReader.write("Round Robin", output, *resultObj);
+        std::cout << "Round Robin completed.\n";
     }
     void SJFPreemptive() {
         std::cout << "This is SJF Pre\n";
